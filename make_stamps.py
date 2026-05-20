@@ -122,7 +122,7 @@ def build(src_path: str, name: str, out_dir: Path):
         img = base(0.82)
         for i in range(N):
             frames.append(paste_centered(canvas(), img.rotate(-360 * i / N, resample=Image.BICUBIC, expand=True)))
-        save_transparent_gif(frames, f"{name}_spin.gif", 55)
+        save_transparent_gif(frames, f"{name}_spin.gif", 55, num_colors=96)
 
     # 6) Rainbow background (saturation pulses through 0 so the plain photo shows once per loop)
     def make_rainbow_bg():
@@ -179,7 +179,7 @@ def build(src_path: str, name: str, out_dir: Path):
             frames.append(paste_centered(canvas(), base(scale)))
         save_transparent_gif(frames, f"{name}_zoom.gif", 65, num_colors=56)
 
-    # 10) Party-parrot style: head bobs around while the background cycles rainbow
+    # 10) Party-parrot style: head bobs around (keeps the original background)
     def make_parrot(suffix="parrot", swing=11, lift=8, tilt_amt=14, squash_amt=0.10,
                     base_scale=0.9, duration=70):
         frames = []
@@ -195,11 +195,8 @@ def build(src_path: str, name: str, out_dir: Path):
             bw, bh = bimg.size
             img = bimg.resize((int(bw / squash ** 0.5), int(bh * squash ** 0.5)), Image.LANCZOS)
             img = img.rotate(tilt, resample=Image.BICUBIC, expand=True)
-            r, g, b = colorsys.hsv_to_rgb(t, 0.9, 1.0)
-            bg = Image.new("RGBA", (SIZE, SIZE), (int(r * 255), int(g * 255), int(b * 255), 255))
-            bg.alpha_composite(img, ((SIZE - img.width) // 2 + dx, (SIZE - img.height) // 2 + dy))
-            frames.append(bg)
-        save_opaque_gif(frames, f"{name}_{suffix}.gif", duration)
+            frames.append(paste_centered(canvas(), img, dx=dx, dy=dy))
+        save_transparent_gif(frames, f"{name}_{suffix}.gif", duration)
 
     # --- intense & fast variants ---
 

@@ -46,7 +46,7 @@ works too, but the whole rectangle (background included) will animate.
 | `rainbow_tint` | the face itself tints rainbow, returning to the original once per loop |
 | `party` | pulse + rainbow background |
 | `zoom` | pushes in hard (up to 2.6×) |
-| `parrot` | party-parrot-style head bob over a cycling rainbow |
+| `parrot` | party-parrot-style head bob (keeps the original background) |
 | `*_hard` | `shake`, `vibrate`, `pulse`, `parrot` — bigger & faster |
 
 ## 3×3 giant "big emoji"
